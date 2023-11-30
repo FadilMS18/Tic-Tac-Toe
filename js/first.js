@@ -43,21 +43,6 @@ function checkCol(board){
     let col2 = [board.row1[1], board.row2[1], board.row3[1]]
     let col3 = [board.row1[2], board.row2[2], board.row3[2]]
 
-    // for(let i = 0; i < 3 ;i++){
-    //     if(col1[0] === col1[1] && col1[1] === col1[2] ){
-    //         console.log("col 1 true")
-    //         break
-    //     }
-    //     else if(col2[0] === col2[1] && col2[1] === col2[2]) {
-    //         console.log("col 2 true")
-    //         break
-    //     }
-    //     else if(col3[0] === col3[1] && col3[1] === col3[2]){
-    //         console.log("col 3 true")
-    //         break
-    //     }
-    // }
-
     if(col1[0] === col1[1] && col1[1] === col1[2] ){
         console.log("col 1 true")
         return true
@@ -108,3 +93,42 @@ checkWinning(gameBoard)
 
 
 console.log(gameBoard)
+
+
+
+
+
+// let gamePlat = (function(){
+//     let cols = 7
+//     let rows = 6
+//     let board = [ ]
+
+//     for(let i = 0;i < rows  ;i++){
+//         board[i] = [] // or new Array()
+//         for(let j = 0; j < cols; j++ ){
+//             board[i].push("")
+//         }
+//     }
+//     console.log(board)
+//     const getBoard = ()=> board
+
+//     const dropToken = (column, player)=>{
+//         const availableCells = board.filter((row)=> row[column].getValue() === 0).map(row => row[column])   
+        
+//         if(!availableCells.length) return
+    
+//         const lowestRow = availableCells.length - 1
+//     }
+    
+
+
+
+//     return{
+//         getBoard,
+//     }    
+
+// })()
+
+// console.log(gamePlat.getBoard())
+
+
