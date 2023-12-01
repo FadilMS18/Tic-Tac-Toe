@@ -1,159 +1,88 @@
-console.log("Hello, World")
-const game = (function (){
-    const cols = 3
-    const rows = 3 
-    const board = []
-
-    // Make the 2D array
-    for(let i = 0; i < rows; i++){
+function gameBoard(){
+    let board =[]
+    for(let i = 0; i< 3; i++){
         board[i] = []
-        for(let j = 0; j < cols; j++){
-            board[i].push("")
+        for(let j = 0; j < 3; j++){
+            board[i][j] = ""
         }
     }
-    console.log(board)
 
-    const getBoard= ()=> board
 
-    const checkWinning = ()=>{
-        board.forEach((row) =>{
-            row.l
-        })    
+    let players = ["X", "O"]
+    let currentPlayer  = players[0]
+
+    function makeMove(row, col){
+        board[row][col] = currentPlayer
+
+        if(checkWin()){
+            console.log(`${currentPlayer} win`)
+            resetGame()
+        }
+        else if(isDraw()){
+            console.log("Game Draw")
+            resetGame()
+        }
+        else{
+            currentPlayer = currentPlayer === players[0] ? players[1] : players[0]
+        }
     }
 
-    return{
-        getBoard,checkWinning,
-    }
-})
-
-// console.log(game.checkWinning())
-
-const board = []
-
-    // Make the 2D array
-for(let i = 0; i < 3; i++){
-    board[i] = []
-    for(let j = 0; j < 3; j++){
-        board[i].push("")
-    }
-}
-
-
-
-
-
-function play(row, col, marker){
-    board[row][col] = marker 
-
-    console.table(board)
-    if(checkRow(board)){
-        alert("win by row")
-    }else if(checkCol(board)){
-        alert("win by Column")
-    }else if(checkDiagonal(board)){
-        alert("win by Diagonal")
-    }
-
-
-}
-
-play(0, 0, "O")
-
-
-play(1, 1, "O")
-play(2, 2, "O")
-
-console.table(board)
-
-
-function checkCol(board){
-    let col = false
-    for(let i = 0; i < 3; i++){
-        
-        for(let j = 0; j< 3; j++){
-            if(board[i][j] === '') continue;
-            // Check col win
-            if(board[0][j] === board[1][j] && board[1][j] === board[2][j] ){
-                console.log(`win di col index ${j}`)
-                col = true
+    function checkWin(){
+        for(let i = 0; i < 3; i++){
+            if((board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer)||
+               (board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer)){
+                return true
                 break
+                // Checking row / col
+            }
+            else if((board[0][0] === currentPlayer && board[1][1] === currentPlayer && board[2][2] === currentPlayer)||
+                   (board[0][2] === currentPlayer && board[1][1] === currentPlayer && board[2][0] === currentPlayer)){
+                    return true
+                    break
+                    // Checking diagonal
             }
         }
-        if(col){
-            console.log("col")
-            break
-        }else{console.log("No Col"); break }
+        return false
     }
-    return col
-}
 
-function checkRow(board){
-    let row = false
-    for(let i = 0; i < 3; i++ ){
-        for(let j = 0; j < 3; j++){
-            if(board[i][j] === "") continue;
-            
-            if(board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
-                console.log(`win di row ${i}`)
-                row = true
-                break;
+    function isDraw(){
+        if(checkWin()) return
+
+        let draw = board.every(row => row.every(col => col !== "")) 
+        return draw
+    }   
+
+    function resetGame(){
+        for(let i = 0; i< 3; i++){
+            for(let j = 0; j < 3; j++){
+                board[i][j] = ""
             }
         }
-        if(row){
-            console.log("Row")
-            break
-        }else{ console.log("No Row"); break }
+        console.log("game reset")
     }
-    return row
-} 
 
-function checkDiagonal(board){
-    let diagonal = false
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j < 3; j++){
-            if(board[1][1] === "") continue
-            if(board[0][0] === board[1][1] && board[1][1] === board[2][2]){
-                
-                diagonal = true
-                console.log("left diagonal")
-                break;
-            }
-            else if(board[0][2] === board[1][1] && board[1][1] === board[2][0]){
-                
-                diagonal = true
-                console.log("Right Diagonal")
-                break;
-            }
-        
-        }
-        if(diagonal){
-            console.log("Diagonal")
-            break
-        } else {console.log("No Diagonal"); break}
-    }
-    return diagonal
-}
+    const getBoard = ()=> board
 
-function resetGame(board){
-    board.forEach((row)=>{
-        for(let i = 0; i < row.length; i ++){
-            row[i] = ""
-        }
-    })
-}
-
-
-console.log(board)
-    
-let playerOne = makePlayer("Finn", "X")
-let playerTwo = makePlayer("Jake", "O")
-function makePlayer(name, marker){
-    let userName = `@${name}`
     return{
-        userName,marker
+        getBoard,makeMove,        
     }
 }
 
-let players = [playerOne, playerTwo]
-console.log(players)
-play(0, 1, players[1].marker)
+let board = gameBoard()
+
+
+// board.makeMove(0, 2)  
+// board.makeMove(1, 1)
+board.makeMove(2, 0)
+// board.makeMove(0, 0)
+// board.makeMove(0, 1)
+board.makeMove(2, 2)
+
+console.table(board.getBoard())
+
+let bor = board.getBoard()
+
+
+let mew = bor.indexOf(row=> row.includes(""))
+console.log(mew)
+
