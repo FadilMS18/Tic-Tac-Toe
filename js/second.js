@@ -1,4 +1,21 @@
-function gameBoard(){
+const gameBoard = (function(){
+    let divS = Array.from(document.querySelectorAll("main > div")) 
+    divS.forEach((div)=>{
+        div.addEventListener("click", (e)=>{
+            if(div.innerHTML !== ""){
+                e.preventDefault()
+            }
+            else{
+                let data = parseInt(div.getAttribute("data"))
+                let where = dataToRowCol(data)
+                makeMove(where.row, where.col)
+                div.innerHTML = currentPlayer 
+                console.table(board)
+            }
+        })
+    }) 
+
+
     let board =[]
     for(let i = 0; i< 3; i++){
         board[i] = []
@@ -15,15 +32,25 @@ function gameBoard(){
         board[row][col] = currentPlayer
 
         if(checkWin()){
-            console.log(`${currentPlayer} win`)
+            alert(`${currentPlayer} win`)
+            console.table(board)
             resetGame()
+            setTimeout((
+                divS.forEach(div => div.innerHTML ="")
+            ),1)
+            
         }
         else if(isDraw()){
-            console.log("Game Draw")
+            alert("Game Draw")
+            console.table(board)
             resetGame()
+            setTimeout(() => {
+                divS.forEach(div => div.innerHTML ="")
+            }, 1);
         }
         else{
             currentPlayer = currentPlayer === players[0] ? players[1] : players[0]
+            computerMove()
         }
     }
 
@@ -32,13 +59,11 @@ function gameBoard(){
             if((board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer)||
                (board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer)){
                 return true
-                break
                 // Checking row / col
             }
             else if((board[0][0] === currentPlayer && board[1][1] === currentPlayer && board[2][2] === currentPlayer)||
                    (board[0][2] === currentPlayer && board[1][1] === currentPlayer && board[2][0] === currentPlayer)){
                     return true
-                    break
                     // Checking diagonal
             }
         }
@@ -46,8 +71,6 @@ function gameBoard(){
     }
 
     function isDraw(){
-        if(checkWin()) return
-
         let draw = board.every(row => row.every(col => col !== "")) 
         return draw
     }   
@@ -58,31 +81,112 @@ function gameBoard(){
                 board[i][j] = ""
             }
         }
-        console.log("game reset")
+        alert("game reset")
     }
 
     const getBoard = ()=> board
 
-    return{
-        getBoard,makeMove,        
+    function computerMove(){
+        if(currentPlayer === players[1]){
+            let emptyCell = []
+            for(let i = 0; i < 3; i++){
+                for(let j = 0; j < 3; j++){
+                    if(board[i][j] === ""){
+                        emptyCell.push({row : i, col : j})
+                    }
+                } 
+            }  
+        
+            if(emptyCell.length > 0){
+                let index =  Math.floor(Math.random() * emptyCell.length)
+                let fix = {row : emptyCell[index].row, col: emptyCell[index].col}
+                let data = rowColToData(fix.row, fix.col)
+
+                document.querySelector(`main > div[data="${data}"]`).innerHTML = currentPlayer
+                makeMove(fix.row, fix.col)
+            }
+        }
+        currentPlayer = players[0]
+        // Board.makeMove(randomRow, randomCol) that is empty
+    }  
+
+    function dataToRowCol(dat){
+        let data = dat
+        let row = 0
+        let col = 0
+        switch (data) {
+            case 1:
+                row = 0;
+                col = 1
+                break; 
+            case 2:
+                row = 0
+                col = 2
+                break;
+            case 3:
+                row = 1
+                col = 0 
+                break;
+            case 4:
+                row = 1
+                col = 1
+                break;
+            case 5:
+                row = 1
+                col = 2
+                break;
+            case 6:
+                row = 2
+                col = 0
+                break;
+            case 7:
+                row = 2
+                col = 1
+                break;
+            case 8:
+                row = 2
+                col = 2
+                break;
+        }
+        let obj = {row, col}
+        return obj
     }
-}
+    function rowColToData(row, col){
+        let data ;
+        
+        if (row === 0 && col === 0) {
+            data = 0;
+        } else if (row === 0 && col === 1) {
+            data = 1;
+        } else if (row === 0 && col === 2) {
+            data = 2;
+        } else if (row === 1 && col === 0) {
+            data = 3;
+        } else if (row === 1 && col === 1) {
+            data = 4;
+        } else if (row === 1 && col === 2) {
+            data = 5;
+        } else if (row === 2 && col === 0) {
+            data = 6;
+        } else if (row === 2 && col === 1) {
+            data = 7;
+        } else if (row === 2 && col === 2) {
+            data = 8;
+        }
+        return data
+    }
 
-let board = gameBoard()
+
+    return{
+        getBoard,makeMove,    
+    }
+})()
+
+// let board = gameBoard
+  
+// console.table(board.getBoard())
 
 
-// board.makeMove(0, 2)  
-// board.makeMove(1, 1)
-board.makeMove(2, 0)
-// board.makeMove(0, 0)
-// board.makeMove(0, 1)
-board.makeMove(2, 2)
 
-console.table(board.getBoard())
-
-let bor = board.getBoard()
-
-
-let mew = bor.indexOf(row=> row.includes(""))
-console.log(mew)
-
+// let where = dataToRowCol(0)
+// console.log(where)
