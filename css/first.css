@@ -6,7 +6,7 @@ body{
     background: linear-gradient(to right bottom, lightblue,rgb(125, 223, 255), aqua);
 }
 
-*{
+*:not(dialog){
     margin:0;
     padding:0;
     box-sizing: border-box;
@@ -14,6 +14,9 @@ body{
 *::selection{
     background-color: black;
     color: aqua;
+}
+input:focus{
+    outline: none;
 }
 a{
     text-decoration: none;
@@ -53,19 +56,18 @@ main > :last-child{
     font-size: 2rem;
     width:250px;
     text-align: center;
+    word-wrap: break-word;
 }
 
 main >:first-child{
-    
     left:7%
 }
 
 main >:last-child{
-    
     right:7%;
 }
 
-main > :first-child > :only-child,
+main > :first-child > span,
 main > :last-child> :only-child{
     display: block;
     margin-top:50px;
@@ -127,6 +129,120 @@ footer > button:hover{
 footer > button:active{
     scale: 1.1;
 }
+
+
+/* Dialog & Modal */
+dialog{
+    padding: 0;
+    border: none;
+}
+
+dialog[open]{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+dialog[open]::backdrop{
+    background-color: rgba(0, 0, 0, .5);
+}
+
+dialog > form{
+    display: flex;
+    flex-direction: column;
+    background-color: aqua;
+    border:2px solid black;
+    width: 350px;
+    height: 350px;
+    padding:10px 20px;
+    gap:20px;
+    border: none;
+    border-radius:5px
+}
+
+dialog > form > h3{
+    font-size: 1.3rem;
+    text-align: center;
+}
+dialog > form > h3 > span{
+    font-size: .8rem;
+    display: block;
+    font-weight: lighter;
+    margin-top:3px;
+    color: rgba(0, 0, 0, .7);
+    
+}
+dialog > form > h3 > span::before,
+dialog > form > h3 > span::after{
+    content : " * ";
+}
+
+dialog > form > p:first-of-type{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top:10px;
+}
+
+dialog > form > p:first-of-type > input{
+    padding:5px 0 5px 15px ;
+    border: none;
+    border-radius: 2px;
+
+    box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, .5);
+    transition:all .3s;
+}
+
+dialog > form > p:first-of-type > label{
+    position: absolute;
+    transition: all .3s;
+}
+
+.no-value{
+    margin: 5px 0 0 15px ;
+    font-size: .8rem;
+    color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+.yes-value{
+    translate: -10px -25px;
+    font-size: .7rem;
+    color: rgba(0, 0, 0);
+}
+
+dialog > form > p:first-of-type + p{
+
+}
+
+dialog >form > p:first-of-type + p > label{
+    display: block;
+    margin:0 0 10px;
+} 
+
+dialog > form > p:first-of-type + p > span{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+dialog > form > p:first-of-type + p > span > span:first-child,
+dialog > form > p:first-of-type + p > span > span:last-child{
+    /* background-color: blue; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+dialog > form > p:first-of-type + p > span > span:first-child > input,
+dialog > form > p:first-of-type + p > span > span:last-child > input{
+    height:20px ;
+    width:20px;
+    margin-right:5px;
+}
+dialog > form > p:first-of-type + p > span > span:first-child > label,
+dialog > form > p:first-of-type + p > span > span:last-child > label{
+    font-size: 1.5rem;
+}
+
+
+
 
 /* Animation */
 @keyframes bigger {

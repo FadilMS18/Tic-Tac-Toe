@@ -19,7 +19,8 @@
     </header>
 
     <main>
-        <span>Player
+        <span>
+            <p>qeqweq</p>
             <span>0</span>
         </span>
         <div data="0"></div>
@@ -40,7 +41,35 @@
         <button>Start Game</button>
         <button>Reset Game</button>
     </footer>
-    <!-- <script src="./js/first.js"></script> -->
+
+    <dialog>
+        <form method="dialog" novalidate>
+            <h3>Tic Tac Toe Game
+                <span>All the field must be filled before proceeding</span>
+            </h3>
+            <p>
+                <input name="player-name" id="player-name" type="text" maxlength="14" autocomplete="off" required>
+                <label class="no-value" for="player-name">What's your name:</label>
+            </p>
+            <p>
+                <label for="">What type you want to use ?</label>
+                <span>
+                    <span>
+                        <input type="checkbox" name="X-Button" id="x-button">
+                        <label for="x-button">X</label>
+                    </span>    
+                    
+                    <span>
+                        <input type="checkbox" name="O-Button" id="x-button">
+                        <label for="o-button">O</label>
+                    </span>
+                </span>
+                
+            </p>            
+            <button autofocus>Confirm</button>
+        </form>
+    </dialog>
+    <script src="./js/first.js"></script>
     <script src="./js/second.js"></script>
 </body>
 </html>
