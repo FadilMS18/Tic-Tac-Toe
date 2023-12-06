@@ -1,8 +1,21 @@
 const gameBoard = (function(){
-    let divS = Array.from(document.querySelectorAll("main > div")) 
+    let divS = Array.from(document.querySelectorAll("main > div"))
+    const resetButton = document.querySelector("footer > :last-child") 
+    let playerScore = 0
+    let computerScore = 0
+
+    const closeDialog = document.querySelector("dialog > button")
+    closeDialog.addEventListener("click", ()=>{
+        resetGame()
+        dialog.close()
+    })
+
     divS.forEach((div)=>{
         div.addEventListener("click", (e)=>{
             if(div.innerHTML !== ""){
+                e.preventDefault()
+            }
+            else if(isDraw() || checkWin()){
                 e.preventDefault()
             }
             else{
@@ -33,20 +46,11 @@ const gameBoard = (function(){
 
         if(checkWin()){
             alert(`${currentPlayer} win`)
-            console.table(board)
-            resetGame()
-            setTimeout((
-                divS.forEach(div => div.innerHTML ="")
-            ),1)
-            
+            addScore()
+            dialog.showModal()
         }
         else if(isDraw()){
             alert("Game Draw")
-            console.table(board)
-            resetGame()
-            setTimeout(() => {
-                divS.forEach(div => div.innerHTML ="")
-            }, 1);
         }
         else{
             currentPlayer = currentPlayer === players[0] ? players[1] : players[0]
@@ -55,6 +59,7 @@ const gameBoard = (function(){
     }
 
     function checkWin(){
+
         for(let i = 0; i < 3; i++){
             if((board[0][i] === currentPlayer && board[1][i] === currentPlayer && board[2][i] === currentPlayer)||
                (board[i][0] === currentPlayer && board[i][1] === currentPlayer && board[i][2] === currentPlayer)){
@@ -75,12 +80,24 @@ const gameBoard = (function(){
         return draw
     }   
 
+    resetButton.addEventListener("click", ()=>{
+        playerScore = 0
+        computerScore = 0
+        document.querySelector("main > span:first-child > span").textContent = playerScore
+        document.querySelector("main > span:last-child > span").textContent = computerScore
+        resetGame()
+    })
+
     function resetGame(){
         for(let i = 0; i< 3; i++){
             for(let j = 0; j < 3; j++){
                 board[i][j] = ""
             }
         }
+        divS.forEach((div)=>{
+            div.innerHTML = ""
+        })
+
         alert("game reset")
     }
 
@@ -176,9 +193,19 @@ const gameBoard = (function(){
         return data
     }
 
+    function addScore(){
+        currentPlayer === players[0] ? playerScore++ : computerScore++
+        document.querySelector("main > span:first-child > span").textContent = playerScore
+        document.querySelector("main > span:last-child > span").textContent = computerScore
+    }
 
+    console.log("Use gameBoard.getBoard() to get the board")
+    console.log("Use gameBoard.resetGame() to reset the game")
+   
+
+    
     return{
-        getBoard,makeMove,    
+        getBoard,resetGame,   
     }
 })()
 
