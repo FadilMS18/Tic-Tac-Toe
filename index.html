@@ -14,7 +14,7 @@
     <header>
         <h1>Tic-Tac-Toe Game</h1>
         <p>Made by 
-            <a href="" target="_blank">FadilMs18</a>
+            <a href="https://github.com/FadilMS18/Tic-Tac-Toe" target="_blank">FadilMs18</a>
         </p>
     </header>
 
@@ -42,10 +42,22 @@
         <button>Reset Game</button>
     </footer>
 
-    <dialog>
-        <h3>Player win this round</h3>
-        <p>Current Score is player:0 vs computer:0</p>
+    <dialog id="dial">
+        <h3></h3>
+        <p></p>
         <button>Next Round </button> 
+    </dialog>
+
+    <dialog id="start-game">
+        <p>
+            <label class="no-value" for="player-name">Input Your Name Here:</label>
+            <input type="text" name="player-name" id="player-name" autocomplete="0">
+        </p>
+        <button>Play</button>
+    </dialog>
+    <dialog id="warning">
+        <h3>Click start game button to start to game</h3>
+        <button>Proceed</button>
     </dialog>
     <script src="./js/first.js"></script>
     <script src="./js/second.js"></script>

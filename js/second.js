@@ -1,14 +1,9 @@
 const gameBoard = (function(){
     let divS = Array.from(document.querySelectorAll("main > div"))
+    const dialog = document.querySelector("dialog#dial")
     const resetButton = document.querySelector("footer > :last-child") 
     let playerScore = 0
     let computerScore = 0
-
-    const closeDialog = document.querySelector("dialog > button")
-    closeDialog.addEventListener("click", ()=>{
-        resetGame()
-        dialog.close()
-    })
 
     divS.forEach((div)=>{
         div.addEventListener("click", (e)=>{
@@ -23,7 +18,6 @@ const gameBoard = (function(){
                 let where = dataToRowCol(data)
                 makeMove(where.row, where.col)
                 div.innerHTML = currentPlayer 
-                console.table(board)
             }
         })
     }) 
@@ -45,12 +39,14 @@ const gameBoard = (function(){
         board[row][col] = currentPlayer
 
         if(checkWin()){
-            alert(`${currentPlayer} win`)
             addScore()
-            dialog.showModal()
+            condition.deleteChild()
+            condition.win()
         }
         else if(isDraw()){
-            alert("Game Draw")
+            condition.deleteChild()
+            condition.draw()
+           
         }
         else{
             currentPlayer = currentPlayer === players[0] ? players[1] : players[0]
@@ -85,6 +81,8 @@ const gameBoard = (function(){
         computerScore = 0
         document.querySelector("main > span:first-child > span").textContent = playerScore
         document.querySelector("main > span:last-child > span").textContent = computerScore
+        condition.deleteChild()
+        condition.reset()
         resetGame()
     })
 
@@ -97,8 +95,6 @@ const gameBoard = (function(){
         divS.forEach((div)=>{
             div.innerHTML = ""
         })
-
-        alert("game reset")
     }
 
     const getBoard = ()=> board
@@ -202,18 +198,70 @@ const gameBoard = (function(){
     console.log("Use gameBoard.getBoard() to get the board")
     console.log("Use gameBoard.resetGame() to reset the game")
    
+    const condition = (function(){
+        
+        const closeDialog = document.querySelector("dialog > button")
+        closeDialog.addEventListener("click", ()=>{
+            resetGame()
+            dialog.close()
+        })
 
+        function win(){
+            const h3 = document.createElement("h3")
+            const p = document.createElement("p")
+            dialog.appendChild(h3)
+            dialog.appendChild(p)
+
+            dialog.style.backgroundColor = currentPlayer === players[0] ? `lightgreen` : `lightcoral` 
+    
+            h3.innerHTML = currentPlayer === players[0] ? `Player win this round, nice 😊 ` : `Computer win this round, not nice ☹️`
+            p.innerHTML = `Current Score is, Player: ${playerScore} vs Computer: ${computerScore} `
+            dialog.showModal()
+        }
+    
+        function draw(){
+            const h3 = document.createElement("h3")
+            const p = document.createElement("p")
+            dialog.appendChild(h3)
+            dialog.appendChild(p)
+    
+            h3.innerHTML = `Draw !!! Nobody's win this round 😤`
+            p.innerHTML = `Current Score is, Player: ${playerScore} vs Computer: ${computerScore}`
+            dialog.showModal()
+        }
+    
+        function reset(){
+            const h3 = document.createElement("h3")
+            const p = document.createElement("p")
+            dialog.appendChild(h3)
+            dialog.appendChild(p)
+
+            dialog.style.backgroundColor = "rgb(243, 237, 143)"
+    
+            h3.innerHTML = `Game Reset !!!`
+            p.innerHTML = `Why did you reset the game !!! 🤯` 
+            dialog.showModal()
+        }
+
+        function deleteChild(){
+            const h3 = document.querySelector("dialog > h3")
+            const p = document.querySelector("dialog > p")
+            dialog.removeChild(h3)
+            dialog.removeChild(p)
+        }
+
+        return{
+            win,draw,reset,deleteChild,
+        }
+
+
+    })()
+
+
+    
     
     return{
         getBoard,resetGame,   
     }
 })()
 
-// let board = gameBoard
-  
-// console.table(board.getBoard())
-
-
-
-// let where = dataToRowCol(0)
-// console.log(where)
