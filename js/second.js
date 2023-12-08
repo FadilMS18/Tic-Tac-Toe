@@ -1,23 +1,27 @@
 const gameBoard = (function(){
     let divS = Array.from(document.querySelectorAll("main > div"))
+    let game = playGame
+
     const dialog = document.querySelector("dialog#dial")
     const resetButton = document.querySelector("footer > :last-child") 
     let playerScore = 0
     let computerScore = 0
 
-    divS.forEach((div)=>{
+    divS.forEach((div)=>{ //1
         div.addEventListener("click", (e)=>{
-            if(div.innerHTML !== ""){
-                e.preventDefault()
-            }
-            else if(isDraw() || checkWin()){
-                e.preventDefault()
-            }
-            else{
-                let data = parseInt(div.getAttribute("data"))
-                let where = dataToRowCol(data)
-                makeMove(where.row, where.col)
-                div.innerHTML = currentPlayer 
+            if(game.startGame()){
+                if(div.innerHTML !== ""){
+                    e.preventDefault()
+                }
+                else if(isDraw() || checkWin()){
+                    e.preventDefault()
+                }
+                else{
+                    let data = parseInt(div.getAttribute("data"))
+                    let where = dataToRowCol(data)
+                    makeMove(where.row, where.col)
+                    div.innerHTML = currentPlayer 
+                }
             }
         })
     }) 
@@ -76,14 +80,17 @@ const gameBoard = (function(){
         return draw
     }   
 
-    resetButton.addEventListener("click", ()=>{
-        playerScore = 0
-        computerScore = 0
-        document.querySelector("main > span:first-child > span").textContent = playerScore
-        document.querySelector("main > span:last-child > span").textContent = computerScore
-        condition.deleteChild()
-        condition.reset()
-        resetGame()
+    resetButton.addEventListener("click", ()=>{ //1
+        if(game.startGame()){
+            playerScore = 0
+            computerScore = 0
+            document.querySelector("main > span:first-child > span").textContent = playerScore
+            document.querySelector("main > span:last-child > span").textContent = computerScore
+            condition.deleteChild()
+            condition.reset()
+            resetGame()
+            game.resetPlayer()
+        }
     })
 
     function resetGame(){
@@ -224,6 +231,8 @@ const gameBoard = (function(){
             const p = document.createElement("p")
             dialog.appendChild(h3)
             dialog.appendChild(p)
+
+            dialog.style.backgroundColor = "rgb(243, 237, 143)"
     
             h3.innerHTML = `Draw !!! Nobody's win this round 😤`
             p.innerHTML = `Current Score is, Player: ${playerScore} vs Computer: ${computerScore}`
@@ -261,7 +270,7 @@ const gameBoard = (function(){
     
     
     return{
-        getBoard,resetGame,   
+        getBoard,resetGame,
     }
 })()
 
