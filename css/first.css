@@ -11,7 +11,8 @@ body{
     padding: 0;
     height: 100vh;
     overflow: hidden;
-    background: linear-gradient(to right bottom, lightblue,rgb(125, 223, 255), aqua, rgba(62, 62, 255));
+    /* background: linear-gradient(to right bottom, lightblue,rgb(125, 223, 255), aqua, rgba(62, 62, 255)); */
+    background: linear-gradient(to right bottom, #C5FFF8,#96EFFF, #5FBDFF, #7B66FF);
 }
 
 *:not(dialog){
